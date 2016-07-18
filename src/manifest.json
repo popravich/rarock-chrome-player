@@ -1,0 +1,25 @@
+{
+    "manifest_version": 2,
+    "name": "RARock.com Player",
+    "description": "Simple player for rarock.com.",
+    "browser_action": {
+        // "default_icon": "icon.png",
+        "default_title": "Open controls",
+        "default_popup": "popup/index.html"
+    },
+    "background": {
+        "scripts": ["background/eventPage.js"],
+        "persistent": false
+    },
+    // "permissions": [
+    //     "alarms",
+    //     "storage",
+    //     "tabs"
+    //     // "contextMenus"
+    // ],
+    // "options_ui": {
+        // "page": "options.html",
+        // "chrome_style": true
+    // },
+    "version": "0.1"
+}

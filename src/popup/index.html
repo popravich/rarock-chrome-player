@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        rel="stylesheet">
+    <style type="text/css">
+      .material-icons.md-18 { font-size: 18px; }
+      .material-icons.md-24 { font-size: 24px; }
+      .material-icons.md-36 { font-size: 36px; }
+      .material-icons.md-48 { font-size: 48px; }
+      .container { width: 400px; height: 60px; }
+      .controls { float: left; width: 80px; height: 60px; }
+      .info { float: left; width: 320px; height: 60px; }
+      .clear { clear: both; height: 0px; width: 100%; }
+      .container.state-playing #play-btn { display: none; }
+      .container.state-playing #stop-btn { display: inline; }
+      .container.state-stopped #play-btn { display: inline; }
+      .container.state-stopped #stop-btn { display: none; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="controls">
+        <button id="play-btn">
+          <i class="material-icons md-48">play_circle_outline</i>
+        </button>
+        <button id="stop-btn">
+          <i class="material-icons md-48">pause_circle_outline</i>
+        </button>
+      </div>
+      <div class="info">
+        # TODO: "Artist - Song" info
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div id='status'></div>
+
+    <script src="/popup/popup.js"></script>
+  </body>
+</html>
