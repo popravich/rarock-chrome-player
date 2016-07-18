@@ -10,7 +10,7 @@
     var play = document.getElementById('play-btn');
     var stop = document.getElementById('stop-btn');
 
-    var player = chrome.extension.getBackgroundPage();
+    var player; // = chrome.extension.getBackgroundPage();
 
     play.addEventListener('click', function(e) {
       if(!player.isPlaying()) {
@@ -25,10 +25,15 @@
     stop.addEventListener('click', function(e) {
       if(player.isPlaying()) {
         player.stop();
+        setState(false);
+        setStateText("Stopped");
       }
     });
 
-    setState(player.isPlaying());
+    getPlayer().then((p) => {
+      player = p;
+      setState(player.isPlaying());
+    });
 
     function setState(state) {
       if (state) {
@@ -47,4 +52,9 @@
 
   }
 
+  function getPlayer() {
+    return new Promise((resolve, reject) => {
+      chrome.runtime.getBackgroundPage((page) => resolve(page));
+    });
+  }
 })()
