@@ -5,35 +5,19 @@
 
   function init() {
     const STREAM = 'http://stream.rarock.com';
-    
+
     var ctx = document.querySelector('div.container');
     var play = document.getElementById('play-btn');
     var stop = document.getElementById('stop-btn');
 
-    var player; // = chrome.extension.getBackgroundPage();
+    var client = new Channel(CHANNEL_POPUP);
 
-    play.addEventListener('click', function(e) {
-      if(!player.isPlaying()) {
-        player.play(STREAM).then(function() {
-          setState(player.isPlaying());
-        });
-        setState(true);
-        setStateText("Loading...");
-      }
-    })
+    client.addListener('stateChange', changeState);
+    client.request('getState').then(changeState).catch((e) => console.log("error:", e))
 
-    stop.addEventListener('click', function(e) {
-      if(player.isPlaying()) {
-        player.stop();
-        setState(false);
-        setStateText("Stopped");
-      }
-    });
+    play.addEventListener('click', (e) => client.notify('play', STREAM));
 
-    getPlayer().then((p) => {
-      player = p;
-      setState(player.isPlaying());
-    });
+    stop.addEventListener('click', (e) => client.notify('stop'));
 
     function setState(state) {
       if (state) {
@@ -46,15 +30,24 @@
         setStateText("Stopped");
       }
     }
+
     function setStateText(text) {
       document.getElementById('status').innerText = text;
     }
 
+    function changeState(newState) {
+      if (newState < STATE_PLAY_STARTING) {
+        setState(false);
+        setStateText('Stopped');
+      } else if (newState < STATE_PLAYING) {
+        setState(true);
+        setStateText('Loading...');
+      } else {
+        setState(true);
+        setStateText('Playing...');
+      }
+    }
+
   }
 
-  function getPlayer() {
-    return new Promise((resolve, reject) => {
-      chrome.runtime.getBackgroundPage((page) => resolve(page));
-    });
-  }
 })()

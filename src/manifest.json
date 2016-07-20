@@ -8,7 +8,9 @@
         "default_popup": "popup/index.html"
     },
     "background": {
-        "scripts": ["background/eventPage.js"],
+        "scripts": [
+            "lib.js",
+            "background/eventPage.js"],
         "persistent": false
     },
     // "permissions": [
