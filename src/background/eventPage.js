@@ -38,6 +38,21 @@ class Player {
     if (this._state_callback !== null) {
       this._state_callback(this._state);
     }
+    if (this._state === STATE_PLAYING) {
+      chrome.browserAction.setIcon({
+        path: {
+          '19': 'assets/action_green_19.png',
+          '38': 'assets/action_green_38.png',
+        }
+      })
+    } else {
+      chrome.browserAction.setIcon({
+        path: {
+          '19': 'assets/action_dark_19.png',
+          '38': 'assets/action_dark_38.png',
+        }
+      })
+    }
   }
 
   onStateChange(callback) {

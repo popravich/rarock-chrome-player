@@ -1,9 +1,15 @@
 {
     "manifest_version": 2,
     "name": "RARock.com Player",
+    "icons": {
+        "48": "assets/icon_active_48.png"
+    },
     "description": "Simple player for rarock.com.",
     "browser_action": {
-        // "default_icon": "icon.png",
+        "default_icon": {
+            "19": "assets/action_dark_19.png",
+            "38": "assets/action_dark_38.png"
+        },
         "default_title": "Open controls",
         "default_popup": "popup/index.html"
     },

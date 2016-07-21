@@ -4,29 +4,111 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
         rel="stylesheet">
     <style type="text/css">
+      body { margin:0px; padding: 0px; }
       .material-icons.md-18 { font-size: 18px; }
       .material-icons.md-24 { font-size: 24px; }
       .material-icons.md-36 { font-size: 36px; }
       .material-icons.md-48 { font-size: 48px; }
-      .container { width: 400px; height: 60px; }
-      .controls { float: left; width: 80px; height: 60px; }
+      .container { width: 400px; height: 100px;}
+      .controls { float: right; width: 80px; height: 60px; }
       .info { float: left; width: 320px; height: 60px; }
       .clear { clear: both; height: 0px; width: 100%; }
-      .container.state-playing #play-btn { display: none; }
-      .container.state-playing #stop-btn { display: inline; }
-      .container.state-stopped #play-btn { display: inline; }
-      .container.state-stopped #stop-btn { display: none; }
+      .container.state-playing .play { display: none; }
+      .container.state-playing .pause { display: block; }
+      .container.state-stopped .play { display: block; }
+      .container.state-stopped .pause { display: none; }
+      .navigation {
+        position: relative;
+        z-index: 1;
+        width: 380px;
+        height: 32px;
+        padding: 4px 10px;
+      }
+      .navigation a.settings {
+        float: right;
+      }
+      .navigation a.playlist {
+        font-weight: bold;
+        float: left;
+      }
+      .navigation a {
+        position: relative;
+        display: inline-block;
+      }
+      .navigation a.settings .material-icons {
+        transition: all .5s ease;
+      }
+      .navigation a.settings:hover .material-icons {
+        transform: rotate(160deg);
+        transform-origin: 50% 50%;
+      }
+      .loading {
+        position: relative;
+        z-index: 100;
+        display: block;
+        float: left;
+        width: 400px;
+        height: 10px;
+      }
+      .loading .progress {
+        float: left;
+        display: block;
+        width: 50%;
+        height: 0px;
+      }
+      
+      a.play,
+      a.pause {
+        display: block;
+        width: 48px;
+        height: 48px;
+        padding: 8px;
+        -border: 1px solid red;
+        border-radius: 50%;
+      }
+
+      /* theme styles */
+      .theme-dark .navigation { background-color: #607D8B; }
+      .theme-dark .navigation a {
+        color: #FFFFFF; /*E0E0E0;*/
+        text-shadow: 0 0 2px #455A64;
+      }
+      .theme-dark a.play,
+      .theme-dark a.pause {
+        background-color: #FF5722;
+        color: #FFFFFF; /*#455A64;*/
+        box-shadow: 0px 0px 10px #455A64;
+      }
+      .theme-dark a.play:active,
+      .theme-dark a.pause:active {
+        box-shadow: 0px 0px 10px #FF5722;
+      }
+      .theme-dark .loading .progress {
+        box-shadow: 0px 0px 1px 4px #0091EA, 0px 0px 10px 4px #84FFFF;
+      }
     </style>
   </head>
   <body>
-    <div class="container state-stopped">
+    <div class="container state-stopped theme-dark">
+      <div class="loading">
+        <div class="progress">&nbsp;</div>
+      </div>
+      <div class="navigation">
+        <a href="#" class="playlist">
+          <i class="material-icons">playlist_play</i>
+        </a>
+        <a href="#" class="settings">
+          <i class="material-icons">settings</i>
+        </a>
+      </div>
+
       <div class="controls">
-        <button id="play-btn">
-          <i class="material-icons md-48">play_circle_filled</i>
-        </button>
-        <button id="stop-btn">
-          <i class="material-icons md-48">pause_circle_filled</i>
-        </button>
+        <a href="#" class="play">
+          <i class="material-icons md-48">play_arrow</i>
+        </a>
+        <a href="#" class="pause">
+          <i class="material-icons md-48">pause</i>
+        </a>
       </div>
       <div class="info">
         # TODO: "Artist - Song" info
@@ -35,7 +117,7 @@
     </div>
     <div id='status'></div>
 
-    <script src="/lib.js"></script>
-    <script src="/popup/popup.js"></script>
+    <script src="../lib.js"></script>
+    <script src="./popup.js"></script>
   </body>
 </html>

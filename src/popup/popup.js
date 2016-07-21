@@ -7,8 +7,8 @@
     const STREAM = 'http://stream.rarock.com';
 
     var ctx = document.querySelector('div.container');
-    var play = document.getElementById('play-btn');
-    var stop = document.getElementById('stop-btn');
+    var play = ctx.querySelector('a.play');
+    var stop = ctx.querySelector('a.pause');
 
     var client = new Channel(CHANNEL_POPUP);
 
@@ -18,6 +18,9 @@
     play.addEventListener('click', (e) => client.notify('play', STREAM));
 
     stop.addEventListener('click', (e) => client.notify('stop'));
+
+    // var settings = ctx.querySelector('a.settings');
+    // settings.addEventListener('click', (e) => alert("Settings"));
 
     function setState(state) {
       if (state) {
