@@ -1,0 +1,55 @@
+/*
+  TODO: use sass
+*/
+.theme-dark .navigation {
+  background-color: #607D8B;
+}
+
+.theme-dark .navigation a {
+  color: #FFFFFF; /*E0E0E0;*/
+  text-shadow: 0 0 2px #455A64;
+}
+
+.theme-dark a.play,
+.theme-dark a.pause {
+  background-color: #FF5722;
+  color: #FFFFFF; /*#455A64;*/
+  box-shadow: 0px 0px 10px #455A64;
+}
+
+.theme-dark a.play i:after {
+  content: "play_arrow";
+}
+.theme-dark a.pause i:after {
+  content: "pause";
+}
+
+.theme-dark a.play:active,
+.theme-dark a.pause:active {
+  box-shadow: 0px 0px 10px #FF5722;
+}
+.theme-dark .loading .progress {
+  box-shadow: 0px 0px 1px 4px #0091EA, 0px 0px 10px 4px #84FFFF;
+}
+.theme-dark a.settings {
+  float: right;
+}
+.theme-dark a.settings i:after {
+  content: "settings";
+}
+
+.theme-dark a.playlist {
+  font-weight: bold;
+  float: left;
+}
+.theme-dark a.playlist i:after {
+  content: "playlist_play";
+}
+
+.theme-dark a.settings i {
+  transition: transform .5s ease;
+}
+.navigation a.settings:hover i {
+  transform: rotate(160deg);
+  transform-origin: 50% 50%;
+}

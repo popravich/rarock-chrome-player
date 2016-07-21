@@ -1,0 +1,53 @@
+body {
+  margin: 0px;
+  padding: 0px;
+}
+
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
+
+.container { width: 400px; height: 100px;}
+.controls { float: right; width: 80px; height: 60px; }
+.info { float: left; width: 320px; height: 60px; }
+.clear { clear: both; height: 0px; width: 100%; }
+.container.state-playing .play { display: none; }
+.container.state-playing .pause { display: block; }
+.container.state-stopped .play { display: block; }
+.container.state-stopped .pause { display: none; }
+.navigation {
+  position: relative;
+  z-index: 1;
+  width: 380px;
+  height: 32px;
+  padding: 4px 10px;
+}
+.navigation a {
+  position: relative;
+  display: inline-block;
+}
+.loading {
+  position: relative;
+  z-index: 100;
+  display: block;
+  float: left;
+  width: 400px;
+  height: 10px;
+}
+.loading .progress {
+  float: left;
+  display: none;
+  width: 50%;
+  height: 0px;
+}
+
+a.play,
+a.pause {
+  display: block;
+  width: 48px;
+  height: 48px;
+  padding: 8px;
+  -border: 1px solid red;
+  border-radius: 50%;
+}
