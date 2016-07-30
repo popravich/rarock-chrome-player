@@ -19,15 +19,14 @@
             "background/eventPage.js"],
         "persistent": false
     },
-    // "permissions": [
-    //     "alarms",
-    //     "storage",
-    //     "tabs"
-    //     // "contextMenus"
-    // ],
-    // "options_ui": {
-        // "page": "options.html",
-        // "chrome_style": true
-    // },
+    "permissions": [
+        "alarms",
+        "storage",
+        "tabs"
+    ],
+    "options_ui": {
+     "page": "options.html",
+     "chrome_style": true
+    },
     "version": "0.1"
 }

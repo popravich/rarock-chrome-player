@@ -29,7 +29,7 @@
   box-shadow: 0px 0px 10px #FF5722;
 }
 .theme-dark .loading .progress {
-  box-shadow: 0px 0px 1px 4px #0091EA, 0px 0px 10px 4px #84FFFF;
+  box-shadow: 0px 0px 1px 4px #BF360C; /*, 0px 0px 10px 4px #E64A19;*/
 }
 .theme-dark a.settings {
   float: right;
