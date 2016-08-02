@@ -6,6 +6,8 @@ const EVENT_PLAYING = 'playing';
 const EVENT_WAITING = 'waiting';
 const EVENT_EMPTIED = 'emptied';
 const EVENT_STALLED = 'stalled';
+const EVENT_LOADEDDATA = 'loadeddata';
+const EVENT_LOADEDMETADATA = 'loadedmetadata';
 
 const _TYPES_MAP = {};
 _TYPES_MAP[EVENT_PLAY] = STATE_PLAY_STARTING;
@@ -31,10 +33,13 @@ class Player {
     this._audio.addEventListener(EVENT_WAITING, (e) => this._handle(e))
     this._audio.addEventListener(EVENT_EMPTIED, (e) => this._handle(e))
     this._audio.addEventListener(EVENT_STALLED, (e) => this._handle(e))
+    this._audio.addEventListener(EVENT_LOADEDDATA, (e) => this._handle(e))
+    this._audio.addEventListener(EVENT_LOADEDMETADATA, (e) => this._handle(e))
   }
 
   _handle(e) {
-    this._state = _TYPES_MAP[e.type];
+    if (_TYPES_MAP[e.type] !== undefined)
+      this._state = _TYPES_MAP[e.type];
     if (this._state_callback !== null) {
       this._state_callback(this._state);
     }
