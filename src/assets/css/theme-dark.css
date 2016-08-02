@@ -15,6 +15,7 @@
   background-color: #FF5722;
   color: #FFFFFF; /*#455A64;*/
   box-shadow: 0px 0px 10px #455A64;
+  transition: box-shadow .2s ease;
 }
 
 .theme-dark a.play i:after {
@@ -28,6 +29,10 @@
 .theme-dark a.pause:active {
   box-shadow: 0px 0px 10px #FF5722;
 }
+.theme-dark a.play:hover {
+  box-shadow: 0px 0px 20px #FF5722;
+}
+
 .theme-dark .loading .progress {
   box-shadow: 0px 0px 1px 4px #BF360C; /*, 0px 0px 10px 4px #E64A19;*/
 }
@@ -47,9 +52,9 @@
 }
 
 .theme-dark a.settings i {
-  transition: transform .5s ease;
+  transition: transform .1s ease;
 }
 .navigation a.settings:hover i {
-  transform: rotate(160deg);
+  transform: rotate(30deg);
   transform-origin: 50% 50%;
 }
