@@ -51,6 +51,7 @@ body {
 a.play,
 a.pause {
   display: block;
+  float: right;
   width: 48px;
   height: 48px;
   padding: 8px;

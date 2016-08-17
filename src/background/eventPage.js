@@ -84,6 +84,11 @@ class Player {
   }
 
   get state() { return this._state; }
+
+  volume(val) {
+    this._audio.volume = val / 100;
+    return
+  }
 }
 
 var srv = new Channel(CHANNEL_BACKGROUND);
@@ -94,4 +99,5 @@ srv.addListener('play', (url) => player.play(url));
 srv.addListener('stop', () => player.stop());
 srv.addListener('isPlaying', () => {return player.isPlaying()});
 srv.addListener('getState', () => {return player.state});
+srv.addListener('volume', (value) => player.volume(value));
 

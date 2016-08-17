@@ -6,15 +6,19 @@
   function init() {
     const STREAM = 'http://stream.rarock.com';
 
-    var ctx = document.querySelector('div.container');
-    var play = ctx.querySelector('a.play');
-    var stop = ctx.querySelector('a.pause');
-    var loader = ctx.querySelector('div.progress');
+    let ctx = document.querySelector('div.container');
+    let play = ctx.querySelector('a.play');
+    let stop = ctx.querySelector('a.pause');
+    let loader = ctx.querySelector('div.progress');
+    let volume = ctx.querySelector('input.volume');
+    let mute = ctx.querySelector('a.mute');
+    let loud = ctx.querySelector('a.loud');
 
     var client = new Channel(CHANNEL_POPUP);
 
     client.addListener('stateChange', changeState);
     client.request('getState').then(changeState).catch((e) => console.log("error:", e))
+    client.notify('volume', volume.value);
 
     play.addEventListener('click', (e) => {
       loader.classList.add('play');
@@ -27,6 +31,21 @@
       if(e.target.style.width == "100%")
         e.target.classList.remove('play');
     })
+
+    volume.addEventListener('change', (e) => {
+      client.notify('volume', e.target.value);
+    });
+    volume.addEventListener('input', (e) => {
+      client.notify('volume', e.target.value);
+    });
+    mute.addEventListener('click', e => {
+      volume.value = 0;
+      client.notify('volume', 0);
+    });
+    loud.addEventListener('click', e => {
+      volume.value = 100;
+      client.notify('volume', 100);
+    });
 
     // var settings = ctx.querySelector('a.settings');
     // settings.addEventListener('click', (e) => alert("Settings"));
