@@ -18,6 +18,7 @@
 
     client.addListener('stateChange', changeState);
     client.request('getState').then(changeState).catch((e) => console.log("error:", e))
+    volume.value = getVolume();
     client.notify('volume', volume.value);
 
     play.addEventListener('click', (e) => {
@@ -33,19 +34,27 @@
     })
 
     volume.addEventListener('change', (e) => {
-      client.notify('volume', e.target.value);
+      setVolume(e.target.value);
     });
     volume.addEventListener('input', (e) => {
-      client.notify('volume', e.target.value);
+      setVolume(e.target.value);
     });
     mute.addEventListener('click', e => {
       volume.value = 0;
-      client.notify('volume', 0);
+      setVolume(0);
     });
     loud.addEventListener('click', e => {
       volume.value = 100;
-      client.notify('volume', 100);
+      setVolume(100)
     });
+
+    function setVolume(value) {
+      localStorage.setItem('volume', value);
+      client.notify('volume', value);
+    }
+    function getVolume() {
+      return Number.parseInt(localStorage.getItem('volume') || '50');
+    }
 
     // var settings = ctx.querySelector('a.settings');
     // settings.addEventListener('click', (e) => alert("Settings"));
