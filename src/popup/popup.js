@@ -6,13 +6,13 @@
   function init() {
     const STREAM = 'http://stream.rarock.com';
 
-    let ctx = document.querySelector('div.container');
-    let play = ctx.querySelector('a.play');
-    let stop = ctx.querySelector('a.pause');
-    let loader = ctx.querySelector('div.progress');
+    let ctx = document.querySelector('main');
+    let play = ctx.querySelector('.play');
+    // let stop = ctx.querySelector('.play');
+    let loader = ctx.querySelector('.progress');
     let volume = ctx.querySelector('input.volume');
-    let mute = ctx.querySelector('a.mute');
-    let loud = ctx.querySelector('a.loud');
+    let mute = ctx.querySelector('.mute');
+    let loud = ctx.querySelector('.loud');
 
     var client = new Channel(CHANNEL_POPUP);
 
@@ -26,7 +26,7 @@
       client.notify('play', STREAM)
     });
 
-    stop.addEventListener('click', (e) => client.notify('stop'));
+    // stop.addEventListener('click', (e) => client.notify('stop'));
 
     loader.addEventListener('webkitTransitionEnd', (e) => {
       if(e.target.style.width == "100%")
@@ -39,21 +39,32 @@
     volume.addEventListener('input', (e) => {
       setVolume(e.target.value);
     });
+    mute.classList.add('mute--' + (localStorage.getItem('volume:mute') || 'off'));
     mute.addEventListener('click', e => {
-      volume.value = 0;
-      setVolume(0);
-    });
-    loud.addEventListener('click', e => {
-      volume.value = 100;
-      setVolume(100)
+      if (mute.classList.contains('mute--off')) {
+        mute.classList.add('mute--on');
+        mute.classList.remove('mute--off');
+        localStorage.setItem('volume:mute', 'on');
+        client.notify('volume', 0);
+      } else {
+        mute.classList.add('mute--off');
+        mute.classList.remove('mute--on');
+        localStorage.setItem('volume:mute', 'off');
+        client.notify('volume', volume.value);
+      }
     });
 
     function setVolume(value) {
+      mute.classList.remove('mute--on');
+      mute.classList.add('mute--off');
       localStorage.setItem('volume', value);
       client.notify('volume', value);
     }
     function getVolume() {
       return Number.parseInt(localStorage.getItem('volume') || '50');
+    }
+    function muteVolume(mute) {
+      client.notify('volume', 0);
     }
 
     // var settings = ctx.querySelector('a.settings');
@@ -72,7 +83,8 @@
     }
 
     function setStateText(text) {
-      document.getElementById('status').innerText = text;
+      console.log("state:", text);
+      // document.getElementById('status').innerText = text;
     }
 
     function changeState(newState) {
