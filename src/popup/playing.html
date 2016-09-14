@@ -1,18 +1,25 @@
 <!doctype html>
 <html>
   <head>
-    <!--Import Google Icon Font-->
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-    <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="../assets/mdl/material.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     <style type="text/css">
-      body { font-size: 100%; min-height: 150px; width: 480px; }
-      .progress { visibility: hidden; }
+      body { font-size: 100%; width: 480px; }
+      .progress--hide { visibility: hidden; }
       .responsive-img { width: 100%; height: auto; }
       .mdl-layout-height { height: auto; }
+
+      .now-playing--hide {
+        display: none;
+      }
+      .controls-play--play i:before {
+        content: "play_arrow";
+      }
+      .controls-play--pause i:before {
+        content: "pause";
+      }
 
       .mute--off i:before {
         content: "volume_mute";
@@ -33,6 +40,7 @@
       <!-- Add spacer, to align navigation to the right -->
       <div class="mdl-layout-spacer"></div>
       <!-- Navigation. We hide it in small screens. -->
+      <!--
       <nav class="mdl-navigation">
         <a class="mdl-navigation__link" href="">
           <i class="material-icons">home</i></a>
@@ -41,29 +49,18 @@
         <a class="mdl-navigation__link" href="">
           <i class="material-icons">search</i></a>
       </nav>
+      -->
     </div>
   </header>
-  <!--
-  <div class="mdl-layout__drawer">
-    <span class="mdl-layout-title">Title</span>
-    <nav class="mdl-navigation">
-      <a class="mdl-navigation__link" href="">
-        <i class="material-icons">home</i> Home</a>
-      <a class="mdl-navigation__link" href="">
-        <i class="material-icons">list</i></a>
-      <a class="mdl-navigation__link" href="">
-        <i class="material-icons">search</i></a>
-    </nav>
-  </div>
-  -->
   <main class="mdl-layout__content">
 
-    <div class="progress mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
+    <div class="progress progress--hide mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
 
     <div class="page-content">
     <!-- Your content goes here -->
-      <div class="mdl-grid" style="display: none">
 
+      <!-- Now playing block -->
+      <div class="now-playing now-playing--hide mdl-grid">
         <div class="mdl-cell mdl-cell--2-col">
           <img src="http://cdn-radiotime-logos.tunein.com/s244604q.png"
             class="responsive-img">
@@ -71,22 +68,26 @@
         <div class="mdl-cell mdl-cell--4-col">
           <p class="flow-text">Stained -<br/> Mudshovel</p>
         </div>
-
       </div>
 
+      <!-- Controls block -->
       <div class="mdl-grid">
 
+        <!-- Play/Pause button -->
         <div class="mdl-cell mdl-cell--2-col">
-          <button class="play mdl-button mdl-js-button mdl-button--fab mdl-button--colored mdl-js-ripple-effect">
-            <i class="material-icons">play_arrow</i>
+          <button class="controls-play controls-play--play mdl-button mdl-js-button mdl-button--fab mdl-button--colored mdl-js-ripple-effect">
+            <i class="material-icons"></i>
           </button>
         </div>
 
+        <!-- Mute button -->
         <div class="mdl-cell mdl-cell--1-col" style="margin-top: 23px; text-align: right">
           <button class="mute mute--off mdl-button mdl-js-button mdl-button--icon">
             <i class="material-icons"></i>
           </button>
         </div>
+
+        <!-- Volume control -->
         <div class="mdl-cell mdl-cell--5-col" style="margin-top: 28px;">
           <input class="volume mdl-slider mdl-js-slider" type="range" min="0" max="100" />
         </div>

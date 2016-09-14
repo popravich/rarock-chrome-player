@@ -35,14 +35,10 @@ class Player {
     this._audio.addEventListener(EVENT_STALLED, (e) => this._handle(e))
     this._audio.addEventListener(EVENT_LOADEDDATA, (e) => this._handle(e))
     this._audio.addEventListener(EVENT_LOADEDMETADATA, (e) => this._handle(e))
+    this._setIcon();
   }
 
-  _handle(e) {
-    if (_TYPES_MAP[e.type] !== undefined)
-      this._state = _TYPES_MAP[e.type];
-    if (this._state_callback !== null) {
-      this._state_callback(this._state);
-    }
+  _setIcon() { 
     if (this._state === STATE_PLAYING) {
       chrome.browserAction.setIcon({
         path: {
@@ -58,6 +54,15 @@ class Player {
         }
       })
     }
+  }
+
+  _handle(e) {
+    if (_TYPES_MAP[e.type] !== undefined)
+      this._state = _TYPES_MAP[e.type];
+    if (this._state_callback !== null) {
+      this._state_callback(this._state);
+    }
+    this._setIcon();
   }
 
   onStateChange(callback) {

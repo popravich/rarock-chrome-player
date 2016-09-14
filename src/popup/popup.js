@@ -7,31 +7,32 @@
     const STREAM = 'http://stream.rarock.com';
 
     let ctx = document.querySelector('main');
-    let play = ctx.querySelector('.play');
+    let play = ctx.querySelector('.controls-play');
     // let stop = ctx.querySelector('.play');
     let loader = ctx.querySelector('.progress');
     let volume = ctx.querySelector('input.volume');
     let mute = ctx.querySelector('.mute');
     let loud = ctx.querySelector('.loud');
+    let info = ctx.querySelector('.now-playing')
 
     var client = new Channel(CHANNEL_POPUP);
 
     client.addListener('stateChange', changeState);
     client.request('getState').then(changeState).catch((e) => console.log("error:", e))
     volume.value = getVolume();
+    volume.title = getVolume();
     client.notify('volume', volume.value);
 
     play.addEventListener('click', (e) => {
-      loader.classList.add('play');
-      client.notify('play', STREAM)
+      if (play.classList.contains('controls-play--play')) {
+        loader.classList.remove('progress--hide');
+        client.notify('play', STREAM);
+      } else {
+        client.notify('stop');
+      }
     });
 
     // stop.addEventListener('click', (e) => client.notify('stop'));
-
-    loader.addEventListener('webkitTransitionEnd', (e) => {
-      if(e.target.style.width == "100%")
-        e.target.classList.remove('play');
-    })
 
     volume.addEventListener('change', (e) => {
       setVolume(e.target.value);
@@ -72,36 +73,37 @@
 
     function setState(state) {
       if (state) {
-        ctx.classList.add('state-playing');
-        ctx.classList.remove('state-stopped');
+        // ctx.classList.add('state-playing');
+        // ctx.classList.remove('state-stopped');
         setStateText("Playing...");
+        play.classList.add('controls-play--pause');
+        play.classList.remove('controls-play--play');
       } else {
-        ctx.classList.remove('state-playing');
-        ctx.classList.add('state-stopped');
+        // ctx.classList.remove('state-playing');
+        // ctx.classList.add('state-stopped');
         setStateText("Stopped");
+        play.classList.remove('controls-play--pause');
+        play.classList.add('controls-play--play');
       }
     }
 
     function setStateText(text) {
       console.log("state:", text);
-      // document.getElementById('status').innerText = text;
     }
 
     function changeState(newState) {
       if (newState < STATE_PLAY_STARTING) {
         setState(false);
         setStateText('Stopped');
-        loader.style.width = "25%";
       } else if (newState < STATE_WAITING) {
-        loader.style.width = "50%";
+        // pass
       } else if (newState < STATE_PLAYING) {
         setState(true);
         setStateText('Loading...');
-        loader.style.width = "75%";
       } else {
         setState(true);
         setStateText('Playing...');
-        loader.style.width = "100%";
+        loader.classList.add('progress--hide');
       }
     }
 
