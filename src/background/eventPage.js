@@ -9,16 +9,9 @@ const EVENT_STALLED = 'stalled';
 const EVENT_LOADEDDATA = 'loadeddata';
 const EVENT_LOADEDMETADATA = 'loadedmetadata';
 
-const _TYPES_MAP = {};
-_TYPES_MAP[EVENT_PLAY] = STATE_PLAY_STARTING;
-_TYPES_MAP[EVENT_PLAYING] = STATE_PLAYING;
-_TYPES_MAP[EVENT_WAITING] = STATE_WAITING;
-_TYPES_MAP[EVENT_EMPTIED] = STATE_PAUSED;
-_TYPES_MAP[EVENT_STALLED] = STATE_ERRORED;
-
 
 class Player {
-  constructor() {
+  constructor(ctlStream) {
     // XXX: revise using `new Audio()`;
     this._state = STATE_PAUSED;
     this._state_callback = null;
@@ -28,13 +21,20 @@ class Player {
       this._audio = document.createElement('audio');
       document.body.appendChild(this._audio);
     }
-    this._audio.addEventListener(EVENT_PLAY, (e) => this._handle(e))
-    this._audio.addEventListener(EVENT_PLAYING, (e) => this._handle(e))
-    this._audio.addEventListener(EVENT_WAITING, (e) => this._handle(e))
-    this._audio.addEventListener(EVENT_EMPTIED, (e) => this._handle(e))
-    this._audio.addEventListener(EVENT_STALLED, (e) => this._handle(e))
-    this._audio.addEventListener(EVENT_LOADEDDATA, (e) => this._handle(e))
-    this._audio.addEventListener(EVENT_LOADEDMETADATA, (e) => this._handle(e))
+    this._stream = Rx.Observable.merge(
+      Rx.Observable.fromEvent(this._audio, EVENT_PLAY),
+      Rx.Observable.fromEvent(this._audio, EVENT_PLAYING),
+      Rx.Observable.fromEvent(this._audio, EVENT_WAITING),
+      Rx.Observable.fromEvent(this._audio, EVENT_EMPTIED),
+      Rx.Observable.fromEvent(this._audio, EVENT_STALLED)
+      );
+    this._stream.map(ev => {
+        let old_state = this._state;
+        let cur_state = ev.type;
+        this._state = cur_state;
+        return {type: 'setPlayState', cur_state, old_state};
+      }).subscribe(ctlStream);
+
     this._setIcon();
   }
 
@@ -56,19 +56,6 @@ class Player {
     }
   }
 
-  _handle(e) {
-    if (_TYPES_MAP[e.type] !== undefined)
-      this._state = _TYPES_MAP[e.type];
-    if (this._state_callback !== null) {
-      this._state_callback(this._state);
-    }
-    this._setIcon();
-  }
-
-  onStateChange(callback) {
-    this._state_callback = callback;
-  }
-
   play(url) {
     this._audio.src = url;
     this._audio.load();
@@ -79,30 +66,29 @@ class Player {
     this._audio.load();
   }
 
-  isPlaying() {
-    if (this._audio.networkState == this._audio.NETWORK_EMPTY ||
-        this._audio.networkState == this._audio.NETWORK_NO_SOURCE)
-      return false;
-    if (this._audio.readyState < this._audio.HAVE_CURRENT_DATA)
-      return false;
-    return !this._audio.paused;
-  }
-
-  get state() { return this._state; }
-
   volume(val) {
     this._audio.volume = val / 100;
     return
   }
 }
 
-var srv = new Channel(CHANNEL_BACKGROUND);
-var player = new Player();
+var CtlStream = new Rx.Subject();
+var RespStream = new Rx.Subject();
 
-player.onStateChange((state) => srv.notify('stateChange', state));
-srv.addListener('play', (url) => player.play(url));
-srv.addListener('stop', () => player.stop());
-srv.addListener('isPlaying', () => {return player.isPlaying()});
-srv.addListener('getState', () => {return player.state});
-srv.addListener('volume', (value) => player.volume(value));
+CtlStream.subscribe(msg => console.log("CtlStream:", msg));
+RespStream.subscribe(msg => console.log("respStream:", msg));
 
+let playStream = RespStream.filter(msg => msg.type == 'setPlay');
+playStream.filter(msg => msg.mode == 'play').subscribe(msg => player.play(msg.url));
+playStream.filter(msg => msg.mode != 'play').subscribe(() => player.stop())
+
+RespStream
+  .filter(msg => msg.type == 'setVolume')
+  .subscribe(msg => {
+    player.volume(msg.volume)
+  })
+
+
+Port_init(CtlStream, RespStream, CHANNEL_BACKGROUND);
+
+var player = new Player(CtlStream);

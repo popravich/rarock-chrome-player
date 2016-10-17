@@ -11,10 +11,11 @@
             "38": "assets/action_dark_38.png"
         },
         "default_title": "Open controls",
-        "default_popup": "popup/playing.html"
+        "default_popup": "popup/index.html"
     },
     "background": {
         "scripts": [
+            "js/rx.lite.js",
             "lib.js",
             "background/eventPage.js"],
         "persistent": false

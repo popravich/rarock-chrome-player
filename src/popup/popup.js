@@ -13,7 +13,9 @@
     let volume = ctx.querySelector('input.volume');
     let mute = ctx.querySelector('.mute');
     let loud = ctx.querySelector('.loud');
-    let info = ctx.querySelector('.now-playing')
+    let info = ctx.querySelector('.now-playing');
+
+    let home = document.querySelector('.nav-home');
 
     var client = new Channel(CHANNEL_POPUP);
 
@@ -53,6 +55,10 @@
         localStorage.setItem('volume:mute', 'off');
         client.notify('volume', volume.value);
       }
+    });
+
+    home.addEventListener('click', (e) => {
+      chrome.tabs.create({url: '../tab/index.html'})
     });
 
     function setVolume(value) {

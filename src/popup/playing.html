@@ -6,13 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     <style type="text/css">
-      body { font-size: 100%; width: 480px; }
+      -body { font-size: 100%; width: 480px; }
       .progress--hide { visibility: hidden; }
       .responsive-img { width: 100%; height: auto; }
-      .mdl-layout-height { height: auto; }
 
       .now-playing--hide {
-        display: none;
+        -display: none;
       }
       .controls-play--play i:before {
         content: "play_arrow";
@@ -29,7 +28,7 @@
       }
     </style>
   </head>
-  <body>
+  <body style="width: 500px;">
   
   <!-- Always shows a header, even in smaller screens. -->
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout-height">
@@ -40,19 +39,17 @@
       <!-- Add spacer, to align navigation to the right -->
       <div class="mdl-layout-spacer"></div>
       <!-- Navigation. We hide it in small screens. -->
-      <!--
       <nav class="mdl-navigation">
-        <a class="mdl-navigation__link" href="">
+        <a class="mdl-navigation__link nav-home" href="">
           <i class="material-icons">home</i></a>
         <a class="mdl-navigation__link" href="">
           <i class="material-icons">list</i></a>
         <a class="mdl-navigation__link" href="">
           <i class="material-icons">search</i></a>
       </nav>
-      -->
     </div>
   </header>
-  <main class="mdl-layout__content">
+  <main class="mdl-layout__content" style="height: 280px;">
 
     <div class="progress progress--hide mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
 
@@ -101,6 +98,7 @@
 
     <script src="../assets/mdl/material.js"></script>
     <script src="../lib.js"></script>
+    <script src="../assets/rx.lite.js"></script>
     <script src="./popup.js"></script>
   </body>
 </html>

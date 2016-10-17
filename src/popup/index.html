@@ -1,56 +1,91 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-        rel="stylesheet">
-    <link href="../assets/css/main.css" rel="stylesheet">
-    <link href="../assets/css/theme-dark.css" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.blue_grey-indigo.min.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      .ui-progress--hide { visibility: hidden; }
+      .ui-progress--show { visibility: show; }
+      .ui-play {}
+      .ui-play--play i:after {
+        content: "play_arrow";
+      }
+      .ui-play--pause i:after {
+        content: "pause";
+      }
+    </style>
   </head>
-  <body>
-    <div class="container state-stopped theme-dark">
-      <div class="loading">
-        <div class="progress">&nbsp;</div>
-      </div>
-
-      <div class="navigation">
-        <a href="#" class="playlist">
-          <i class="material-icons"></i>
-        </a>
-
-        <a href="#" class="settings">
-          <i class="material-icons"></i>
-        </a>
-      </div>
-
-      <div class="controls">
-
-
-        <a href="#" class="mute">
-          <i class="material-icons"></i>
-        </a>
-        <div class="slider">
-          <input class="volume" type="range" min="0" max="100" />
+  <body style="min-width: 478px; min-height: 250px;">
+    <!-- Always shows a header, even in smaller screens. -->
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+          <!-- Title -->
+          <span class="mdl-layout-title"></span>
+          <!-- Add spacer, to align navigation to the right -->
+          <div class="mdl-layout-spacer"></div>
+          <!-- Navigation. We hide it in small screens. -->
+          <nav class="mdl-navigation mdl-layout--large-screen-only">
+          <!--
+            <a class="mdl-navigation__link" href="">Link</a>
+            <a class="mdl-navigation__link" href="">Link</a>
+            <a class="mdl-navigation__link" href="">Link</a>
+            <a class="mdl-navigation__link" href="">Link</a>
+          -->
+          </nav>
         </div>
-
-        <a href="#" class="loud">
-          <i class="material-icons"></i>
-        </a>
-
-        <a href="#" class="play">
-          <i class="material-icons md-48"></i>
-        </a>
-        <a href="#" class="pause">
-          <i class="material-icons md-48"></i>
-        </a>
+      </header>
+      <div class="mdl-layout__drawer">
+        <!-- <span class="mdl-layout-title">Title</span> -->
+        <nav class="mdl-navigation">
+          <a class="mdl-navigation__link" href="">
+            <i class="material-icons">radio</i> Radio</a>
+          <a class="mdl-navigation__link" href="">
+            <i class="material-icons">library_music</i> Local</a>
+          <a class="mdl-navigation__link" href="">
+            <i class="material-icons">link</i> Streams</a>
+          <a class="mdl-navigation__link" href="">
+            <i class="material-icons">settings</i> Settings</a>
+        </nav>
       </div>
-      <div class="info">
-        <!-- # TODO: "Artist - Song" info -->
-      </div>
-      <div class="clear"></div>
+      <main class="mdl-layout__content">
+        <div class="ui-progress ui-progress--hide mdl-progress mdl-js-progress mdl-progress__indeterminate"
+          style="width: 100%;"></div>
+        <div class="page-content">
+          <!-- Your content goes here -->
+          <div class="mdl-grid">
+            <div class="mdl-cell mdl-cell--1-col">
+              <img src="http://cdn-radiotime-logos.tunein.com/s244604q.png"
+                style="width: 100%;" />
+            </div>
+            <div class="mdl-cell mdl-cell--3-col">
+              <h5>Godsmack</h5>
+              <h6>I Stand Alone</h6>
+            </div>
+
+            <div class="mdl-cell mdl-cell--8-col mdl-cell--hide-phone"></div>
+            <div class="mdl-cell mdl-cell--12-col mdl-cell--hide-desktop"><hr/></div>
+
+            <div class="mdl-cell mdl-cell--1-col">
+              <button class="ui-play ui-play--play mdl-button mdl-js-button mdl-button--fab mdl-button--colored mdl-js-ripple-effect">
+                <i class="material-icons"></i>
+              </button>
+            </div>
+            <div class="mdl-cell mdl-cell--3-col">
+              <input class="ui-volume mdl-slider mdl-js-slider" type="range" min="0" max="100" />
+            </div>
+
+            <div class="mdl-cell mdl-cell--12-col mdl-cell--hide-phone"><hr/></div>
+          </div>
+        
+        </div>
+      </main>
     </div>
-    <div id='status' style="display: none;"></div>
 
+    <script src="../assets/mdl/material.js"></script>
+    <script src="../js/rx.lite.js"></script>
     <script src="../lib.js"></script>
-    <script src="./popup.js"></script>
+    <script src="../js/ui.js"></script>
   </body>
 </html>
